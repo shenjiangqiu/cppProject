@@ -19,26 +19,37 @@ unsigned long long add(RandonIt t1, RandonIt t2) {
 	return ret;
 }
 template<typename RandonIt>
-unsigned long long  pallAdd(RandonIt t1, RandonIt t2,const unsigned long long  all) {
+unsigned long long  pallAdd(RandonIt t1, RandonIt t2,const unsigned long long  min) {
 	auto gap = t2 - t1;
-	if (gap<=all/4) {
+	
+	if (gap<=min) {
+		
 		return add(t1, t2);
 	}
 	else {
 		auto mid = t1 + (t2 - t1) / 2;
-		auto ft = async(launch::async, pallAdd<RandonIt>, t1, mid,all);
-		return pallAdd(mid, t2,all) + ft.get();
+		auto ft = async(launch::async, pallAdd<RandonIt>, t1, mid,min);
+		return pallAdd(mid, t2,min) + ft.get();
 	}
 }
 
 int main(int argc, char const *argv[])
-{
+{	
+
 	const unsigned long long N = 0x7fffffff;
-	auto engin = default_random_engine(chrono::system_clock::now().time_since_epoch().count());
+	cout << "input your cores: ";
+	int a;
+	cin >> a;
+	/*auto engin = default_random_engine(chrono::system_clock::now().time_since_epoch().count());
 	uniform_int_distribution<int> eg(1, 10);
 	char *buffer = new char[N];
 	for (int i = 0; i<(N); i++) {
 		buffer[i] = eg(engin);
+	}
+	*/
+	char* buffer = new char[N];
+	for (int i = 0; i < N; i++) {
+		buffer[i] = i % 10;
 	}
 	auto start = chrono::system_clock::now();
 	auto anser1 = add(buffer, buffer + (N));
@@ -47,13 +58,13 @@ int main(int argc, char const *argv[])
 	cout << "ret = " << anser1 << ", time= " << duration.count() << " miliseconds" << endl;
 
 	start = chrono::system_clock::now();
-	auto anser2 = pallAdd(buffer, buffer + (N),N);
+	auto anser2 = pallAdd(buffer, buffer + (N),N/a);
 	end = chrono::system_clock::now();
 	duration = chrono::duration_cast<chrono::milliseconds>(end - start);
 	cout << "ret = " << anser2 << ", time= " << duration.count() << " miliseconds" << endl;
 
 	start = chrono::system_clock::now();
-	anser2 = pallAdd(buffer, buffer + (N),N);
+	anser2 = pallAdd(buffer, buffer + (N),N/a);
 	end = chrono::system_clock::now();
 	duration = chrono::duration_cast<chrono::milliseconds>(end - start);
 	cout << "ret = " << anser2 << ", time= " << duration.count() << " miliseconds" << endl;
