@@ -1,13 +1,41 @@
+#include"FindStringInPi.h"
 #include<iostream>
-#include<string>
-int main(int argc, char const *argv[])
-{
-    std::cout<<"input the number you want to find in Pi :";
-    std::string Numbers;
-    std::cin>>Numbers;
-    std::cout<<std::endl<<"start to find the Number"<<std::endl;
+#include<sstream>
+#include<chrono>
+using namespace std;
 
-    int i=0;
+int main(int argc,char** argv) {
+	string pifilename;
+	if (argc != 2) {
+		cout << "must input the pi file name" << endl;
+		return -1;
+	}
+	else {
+		pifilename = argv[1];
+	}
+	cout << "\ninput threads: ";
+	int threads;
+	cin >> threads;
+	cout << "\ninput the max length to find: ";
+	int maxlength;
+	cin >> maxlength;
+	FindStringInPi my_finder(pifilename,threads,maxlength);
+	cout << "imput the number you want to find" << endl;
+	string patten;
+	cin >> patten;
+	auto timestart = std::chrono::steady_clock::now();
+	auto ret=my_finder.run(patten);
+	auto timeend = std::chrono::steady_clock::now();
+	auto duration = timeend - timestart;
+	cout << "cost " << std::chrono::duration_cast<std::chrono::minutes>(duration).count() << " minutes\n" << endl;
+	if (ret == -1) {
+		cout << "can find " << "1994" << endl;
+		return -1;
 
-    return 0;
+	}
+	else {
+		cout << "finded! the pos is " << ret << endl;
+	}
+	
+	return 0;
 }
