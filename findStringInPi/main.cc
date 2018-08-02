@@ -29,7 +29,7 @@ int main(int argc,char** argv) {
 	auto duration = timeend - timestart;
 	cout << "cost " << std::chrono::duration_cast<std::chrono::minutes>(duration).count() << " minutes\n" << endl;
 	if (ret == -1) {
-		cout << "can find " << "1994" << endl;
+		cout << "can‘t find " << patten << endl;
 		return -1;
 
 	}
