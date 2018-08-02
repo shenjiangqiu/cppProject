@@ -27,7 +27,7 @@ int main(int argc,char** argv) {
 	auto ret=my_finder.run(patten);
 	auto timeend = std::chrono::steady_clock::now();
 	auto duration = timeend - timestart;
-	cout << "cost " << std::chrono::duration_cast<std::chrono::minutes>(duration).count() << " minutes\n" << endl;
+	cout << "cost " << std::chrono::duration_cast<std::chrono::seconds>(duration).count() << " seconds\n" << endl;
 	if (ret == -1) {
 		cout << "can‘t find " << patten << endl;
 		return -1;
