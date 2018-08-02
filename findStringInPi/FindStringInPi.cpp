@@ -109,7 +109,7 @@ size_t FindStringInPi::run(const std::string& patten)
 			}
 			
 		}
-		if (finished == true) {
+		if (finished == true||finded==true) {
 			break;
 		}
 		std::this_thread::sleep_for(std::chrono::seconds(2));
